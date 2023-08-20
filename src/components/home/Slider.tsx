@@ -145,11 +145,11 @@ export default function Slider() {
                   />
                 </div>
                 <div className="grid gap-y-[10px]">
-                  <div className="text-xs flex items-center">
+                  <div className="text-xs flex items-center gap-x-1">
                     <div className="font-medium text-white bg-[#4F95FF] py-[3px] px-[15px]">
                       {post.category}
                     </div>
-                    <div className="flex items-center gap-x-[5px] -translate-x-1/4">
+                    <div className="flex items-center gap-x-[5px]">
                       <div>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
