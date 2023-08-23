@@ -23,7 +23,7 @@ const mockPosts = [
   },
 ];
 
-export default function Slider() {
+export default function SliderSection() {
   return (
     <section className="bg-[url('/slider_background.png')] h-[575px] bg-cover bg-no-repeat bg-center">
       <div className="h-full bg-black bg-opacity-50">
@@ -82,7 +82,7 @@ export default function Slider() {
                     />
                   </svg>
                 </div>
-                <div>byrktdesign</div>
+                <div>byrktrdesign</div>
               </div>
             </div>
             <div className="mt-4 text-4xl font-semibold text-white">

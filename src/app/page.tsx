@@ -1,15 +1,19 @@
 import Header from "@/components/common/Header";
 import Navbar from "@/components/common/Navbar";
 import RecentPostSection from "@/components/home/RecentPostSection";
-import Slider from "@/components/home/Slider";
+import SliderSection from "@/components/home/SliderSection";
+import ViewAllSection from "@/components/home/ViewAllSection";
+import Footer from "@/components/common/Footer";
 
 export default function HomePage() {
   return (
     <>
       <Header />
       <Navbar />
-      <Slider />
+      <SliderSection />
       <RecentPostSection />
+      <ViewAllSection />
+      <Footer />
     </>
   )
 }
