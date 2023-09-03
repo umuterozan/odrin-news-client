@@ -1,6 +1,6 @@
 export default function LoginPage() {
   return (
-    <section className="mt-14">
+    <section className="my-14">
       <div className="container mx-auto flex justify-center">
         <form action="" className="w-1/4">
           <div className="text-center text-2xl font-medium mb-4 border-b-2 pb-2">Login</div>
