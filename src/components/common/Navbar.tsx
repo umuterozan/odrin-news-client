@@ -15,10 +15,9 @@ export default function Navbar() {
         <nav className="font-medium text-[#2F2F2F]">
           <ul className="flex items-center justify-between gap-x-12">
             <li>Home</li>
-            <li>Categories</li>
             <li>Posts</li>
             <li>Sign up</li>
-            <li>Login</li>
+            <li>Sign in</li>
             <li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
