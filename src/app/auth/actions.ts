@@ -1,9 +1,9 @@
 'use server'
 
 import axios from "axios"
-import { redirect } from "next/navigation"
+import { cookies } from "next/headers"
 
-const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms)) // temporary func
 
 export async function createUser(formData: FormData) {
   await delay(1500)
@@ -15,9 +15,9 @@ export async function createUser(formData: FormData) {
       email: formData.get("email"),
       password: formData.get("password"),
     })
-    redirect('/auth/signin')
+    return { ok: true }
   } catch (e) {
-    return { message: e.response.data.message }
+    return { message: e.response?.data?.message }
   }
 }
 
@@ -29,7 +29,9 @@ export async function findUser(formData: FormData, agent: string) {
       password: formData.get("password"),
       agent,
     })
-    // ......
+    cookies().set('accessToken', res.data.accessToken, { httpOnly: true })
+    cookies().set('refreshToken', res.data.refreshToken, { httpOnly: true })
+    return { ok: true }
   } catch (e) {
     return { message: e.response.data.message }
   }

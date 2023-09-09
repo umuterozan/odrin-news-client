@@ -3,13 +3,23 @@
 import { createUser } from "../actions"
 import { useState } from "react"
 import SubmitButton from "../SubmitButton"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 export default function SignupPage() {
   const [messages, setMessages] = useState<string[]>([])
+  const router = useRouter()
 
   async function sendData(formData: FormData) {
     const res = await createUser(formData)
-    setMessages(res.message)
+    if (res.message) {
+      setMessages(res.message)
+      toast.error('Errors exist.')
+    }
+    if (res.ok) {
+      router.push('/auth/signin')
+      toast.success('Successful, you can sign in now!', { duration: 6000 })
+    }
   }
 
   return (
@@ -51,7 +61,7 @@ export default function SignupPage() {
             <SubmitButton text="Sign up!" />
           </div>
         </form>
-      </div>
+      </div>      
     </section>
   )
 }

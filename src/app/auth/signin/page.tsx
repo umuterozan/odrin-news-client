@@ -3,13 +3,24 @@
 import { findUser } from "../actions"
 import { useState } from "react"
 import SubmitButton from "../SubmitButton"
+import { useRouter } from "next/navigation"
+import toast from "react-hot-toast"
 
 export default function SigninPage() {
   const [messages, setMessages] = useState<string[]>([])
+  const router = useRouter()
 
   async function sendData(formData: FormData) {
     const res = await findUser(formData, navigator.userAgent)
-    setMessages(res.message)
+    if (res.message) {
+      const messages = Array.isArray(res.message) ? res.message : [res.message];
+      setMessages(messages);
+      toast.error('Errors exist.');
+    }
+    if (res.ok) {
+      router.push('/')
+      toast.success('Successful!')
+    }
   }
 
   return (

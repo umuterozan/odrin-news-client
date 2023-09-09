@@ -1,6 +1,12 @@
+import { Toaster } from "react-hot-toast"
+
 export default function Header() {
   return (
     <header className="h-10 bg-[#1E1F24]">
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+      />
       <div className="h-full container mx-auto flex items-center justify-between">
         <div className="flex items-center gap-x-5 font-medium text-xs text-white">
           <div className="bg-[#4F95FF] py-3 px-5">TREND</div>
