@@ -1,8 +1,21 @@
 import Image from "next/image"
+import axios from "axios";
 
-const mockCategories = ["Travel", "Food", "Photography", "Animals", "NFT", "Life", "Technology", "Social Media", "Sports"]
+type Category = {
+  id: number;
+  name: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
-export default function Footer() {
+async function getCategories() {
+  const res = await axios.get(process.env.API_URL + '/categories')
+  return res.data
+}
+
+export default async function Footer() {
+  const categories: Category[] = await getCategories()
+
   return (
     <footer>
       <div className="bg-white py-20">
@@ -50,14 +63,14 @@ export default function Footer() {
               <div className="bg-[#4F95FF] w-[179px] h-[2px] rounded-[10px]"></div>
             </div>
             <div className="mt-8 grid grid-cols-2 gap-y-5">
-              {mockCategories.map((category, key) => (
-                <div key={key} className="flex items-center px-2">
+              {categories.map((category) => (
+                <div key={category.id} className="flex items-center px-2">
                   <div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                       <path d="M6.00001 13.5C5.86748 13.4982 5.74042 13.4469 5.64376 13.3562C5.54986 13.2614 5.49719 13.1334 5.49719 13C5.49719 12.8666 5.54986 12.7385 5.64376 12.6437L10.2938 7.99998L5.64376 3.35623C5.56402 3.25908 5.52328 3.13575 5.52944 3.01023C5.53561 2.8847 5.58824 2.76595 5.67711 2.67709C5.76598 2.58822 5.88472 2.53558 6.01025 2.52942C6.13578 2.52325 6.25911 2.564 6.35626 2.64373L11.3563 7.64373C11.4501 7.73853 11.5028 7.86656 11.5028 7.99998C11.5028 8.1334 11.4501 8.26143 11.3563 8.35623L6.35626 13.3562C6.25959 13.4469 6.13253 13.4982 6.00001 13.5Z" fill="#0E0E0E"/>
                     </svg>
                   </div>
-                  <div className="text-[#0E0E0E] text-sm">{category}</div>
+                  <div className="text-[#0E0E0E] text-sm">{category.name}</div>
                 </div>
               ))}
             </div>

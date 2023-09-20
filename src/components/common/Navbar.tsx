@@ -1,27 +1,6 @@
 import Image from "next/image";
-import axios from "axios";
-import { cookies } from "next/headers";
-
-async function getUser(cookie: any) {
-  try {
-    const res = await axios.get(process.env.API_URL + '/auth/verify-token', {
-      headers: {
-        Cookie: `${cookie.name}=${cookie.value}`
-      }
-    })
-    return res
-  } catch (e) {
-    return null
-  }
-}
 
 export default async function Navbar() {
-  const cookie = cookies().get('accessToken')
-  let user;
-  if (cookie) {
-    user = await getUser(cookies().get('accessToken'))
-  }
-
   return (
     <div className="h-16">
       <div className="h-full container mx-auto flex items-center justify-between">
@@ -37,8 +16,8 @@ export default async function Navbar() {
           <ul className="flex items-center justify-between gap-x-12">
             <li>Home</li>
             <li>Posts</li>
-            <li>{user ? user.data.username : 'Sign up'}</li>
-            <li>{user ? 'Log out' : 'Sign in'}</li>
+            <li>Sign up</li>
+            <li>Sign in</li>
             <li>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
