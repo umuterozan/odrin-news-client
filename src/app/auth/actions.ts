@@ -16,7 +16,7 @@ export async function createUser(formData: FormData) {
       password: formData.get("password"),
     })
     return { ok: true }
-  } catch (e) {
+  } catch (e: any) {
     return { message: e.response?.data?.message }
   }
 }
@@ -29,10 +29,11 @@ export async function findUser(formData: FormData, agent: string) {
       password: formData.get("password"),
       agent,
     })
+    cookies().set('username', res.data.username)
     cookies().set('accessToken', res.data.accessToken, { httpOnly: true })
     cookies().set('refreshToken', res.data.refreshToken, { httpOnly: true })
     return { ok: true }
-  } catch (e) {
+  } catch (e: any) {
     return { message: e.response.data.message }
   }
 }
