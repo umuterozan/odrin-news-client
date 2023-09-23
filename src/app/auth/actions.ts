@@ -37,3 +37,9 @@ export async function findUser(formData: FormData, agent: string) {
     return { message: e.response.data.message }
   }
 }
+
+export async function deleteCookies() {
+  cookies().delete('username')
+  cookies().delete('accessToken')
+  cookies().delete('refreshToken')
+}

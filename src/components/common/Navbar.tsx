@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { AuthorIcon, DotsIcon, SearchIcon } from "../icons";
 import { cookies } from "next/headers";
+import { verifyToken } from "@/lib/actions";
 
 export default async function Navbar() {
-  const username: any = cookies().get('username')?.value
+  const username = cookies().get('username')?.value
   
   return (
     <div className="h-16">

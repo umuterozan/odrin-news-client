@@ -16,3 +16,9 @@ export interface ICategory {
   createdAt: string;
   postsCount: number;
 }
+
+export interface ISession {
+  id: number;
+  agent: string;
+  createdAt: string;
+}

@@ -1,9 +1,11 @@
 import SigninForm from "@/components/auth/SigninForm"
 import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
+import { verifyToken } from "@/lib/actions"
 
-export default function SigninPage() {
-  if(cookies().get('accessToken')?.value) redirect('/')
+export default async function SigninPage() {
+  const isVerifyToken = await verifyToken(cookies().get('accessToken'))
+  if (isVerifyToken) return redirect('/')
 
   return (
     <section className="my-14">
