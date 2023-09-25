@@ -19,7 +19,7 @@ export default async function LogoutPage() {
         <h1 className="text-[#0E0E0E] text-4xl font-medium text-center border-b-2 pb-2">Sessions</h1>
         <div className="mt-8 grid grid-cols-3 gap-4">
           {sessions && sessions.map((session: ISession) => (
-            <div className={`${session.id === currentSession && 'border-[#666666] -order-last'} bg-white border-2 p-5 flex flex-col items-center`}>
+            <div key={session.id} className={`${session.id === currentSession && 'border-[#666666] -order-last'} bg-white border-2 p-5 flex flex-col items-center`}>
               <Image
                 width={128} height={128}
                 src={parseUserAgent(session.agent).isMobile ? "https://cdn.discordapp.com/attachments/1086616867264811090/1154799685639340153/android.png" : "https://cdn.discordapp.com/attachments/1086616867264811090/1154799665867395103/pc.png"}
