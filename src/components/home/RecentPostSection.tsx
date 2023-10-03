@@ -2,6 +2,7 @@ import Image from "next/image"
 import { ICategory, IPost } from "@/lib/types"
 import { formatDate, getPosts, getCategories } from "@/lib/actions"
 import { CalendarIcon, CommentIcon, FacebookIcon, InstagramSolidIcon, MailIcon, PaperPlaneIcon, TwitterIcon, YoutubeIcon } from "../icons"
+import Link from "next/link"
 
 export default async function RecentPostSection() {
   const posts: IPost[] = await getPosts(4, '', 'DESC')
@@ -24,14 +25,16 @@ export default async function RecentPostSection() {
             {posts.map((post) => (
               <div key={post.id} className="w-[316px] bg-white rounded-[15px]">
                 <div className="relative">
-                  <div className="w-[316px] h-[205px] relative">
-                    <Image
-                      fill
-                      alt="Recent Post Image" 
-                      src={post.thumbnail}
-                      className="object-cover rounded-t-[15px]"
-                    />
-                  </div>
+                  <Link href={`/posts/${post.slug}`}>
+                    <div className="w-[316px] h-[205px] relative">
+                      <Image
+                        fill
+                        alt="Recent Post Image" 
+                        src={post.thumbnail}
+                        className="object-cover rounded-t-[15px]"
+                      />
+                    </div>
+                  </Link>
                   <div className="absolute bottom-0 left-[25px] bg-[#4F95FF] py-[5px] px-[15px] text-xs font-medium text-white w-[93px]">{post.category}</div>
                 </div>
                 <div className="px-[25px] pb-[25px]">                
@@ -49,7 +52,7 @@ export default async function RecentPostSection() {
                       <div>{post.commentsCount}</div>
                     </div>
                   </div>
-                  <div className="mt-[9px] font-semibold text-lg text-[#0E0E0E]">{post.title}</div>
+                  <Link href={`/posts/${post.slug}`}><div className="mt-[9px] font-semibold text-lg text-[#0E0E0E]">{post.title}</div></Link>
                   <div className="mt-5 text-xs text-[#666666]">
                     {post.body}
                   </div>

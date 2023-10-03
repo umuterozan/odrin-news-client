@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ICategory, IPost } from "./types";
+import { ICategory, IComment, IPost } from "./types";
 import { RequestCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 export async function getPosts(limit: number = 0, sort: string = '', order: 'ASC' | 'DESC' = 'ASC') {
@@ -7,9 +7,19 @@ export async function getPosts(limit: number = 0, sort: string = '', order: 'ASC
   return posts
 }
 
+export async function getPost(slug: string) {
+  const post: IPost = (await axios.get(process.env.API_URL + `/posts/${slug}`)).data
+  return post
+}
+
 export async function getCategories(limit: number = 0, sort: string = '', order: 'ASC' | 'DESC' = 'ASC') {
   const categories: ICategory[] = (await axios.get(process.env.API_URL + `/categories?limit=${limit}&sort=${sort}&order=${order}`)).data
   return categories
+}
+
+export async function getComments(postId: number, limit: number = 0, order: 'ASC' | 'DESC' = 'ASC') {
+  const comments: IComment[] = (await axios.get(process.env.API_URL + `/comments?postId=${postId}&limit=${limit}&order=${order}`)).data
+  return comments
 }
 
 export async function verifyToken(cookie: RequestCookie | undefined) {

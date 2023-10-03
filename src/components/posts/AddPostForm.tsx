@@ -1,32 +1,48 @@
 "use client";
 
-import { createUser } from "@/app/auth/actions";
+import { createPost } from "@/app/posts/actions";
 import { useState } from "react";
 import SubmitButton from "@/app/auth/SubmitButton";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import { ICategory } from "@/lib/types";
 
-export default function SignupForm() {
+export default function AddPostForm({
+  categories,
+}: {
+  categories: ICategory[];
+}) {
   const [messages, setMessages] = useState<string[]>([]);
   const router = useRouter();
 
+  function getBase64String(file: any) {
+    if (!file.name) return null
+
+    return new Promise((resolve) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(file)
+      reader.onload = () => resolve(reader.result)
+    })
+  }
+
   async function sendData(formData: FormData) {
-    const res = await createUser(formData);
+    const base64String: any = await getBase64String(formData.get("thumbnail"))
+    const res = await createPost(formData, base64String);
     if (res.message) {
       const messages = Array.isArray(res.message) ? res.message : [res.message];
-      setMessages(messages);
+      setMessages(messages)
       toast.error("Errors exist.");
     }
     if (res.ok) {
-      router.push("/auth/signin");
-      toast.success("Successful, you can sign in now!", { duration: 6000 });
+      router.push(`/posts/${res.slug}`);
+      toast.success("Successful", { duration: 6000 });
     }
   }
 
   return (
-    <form action={sendData} className="w-1/4">
-      <div className="text-center text-2xl font-medium mb-4 border-b-2 pb-2">
-        Sign up
+    <form action={sendData}>
+      <div className="text-center text-2xl font-medium mb-4 border-b-2 pb-2 mt-2">
+        Add Post
       </div>
       <div
         className={`${
@@ -54,57 +70,56 @@ export default function SignupForm() {
         ))}
       </div>
       <div className="flex flex-col gap-y-1 mb-4">
-        <label htmlFor="firstName" className="text-sm text-[#666666]">
-          First name
+        <label htmlFor="category" className="text-sm text-[#666666]">
+          Category
+        </label>
+        <select
+          name="category"
+          className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
+        >
+          <option value="" selected disabled hidden>
+            ...
+          </option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
+      <div className="flex flex-col gap-y-1 mb-4">
+        <label htmlFor="thumbnail" className="text-sm text-[#666666]">
+          Thumbnail
         </label>
         <input
-          type="text"
-          name="firstName"
+          type="file"
+          name="thumbnail"
+          accept="image/png, image/jpeg"
           className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
         />
       </div>
       <div className="flex flex-col gap-y-1 mb-4">
-        <label htmlFor="lastName" className="text-sm text-[#666666]">
-          Last name
+        <label htmlFor="title" className="text-sm text-[#666666]">
+          Title
         </label>
         <input
           type="text"
-          name="lastName"
+          name="title"
           className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
         />
       </div>
       <div className="flex flex-col gap-y-1 mb-4">
-        <label htmlFor="username" className="text-sm text-[#666666]">
-          Username
+        <label htmlFor="body" className="text-sm text-[#666666]">
+          Body
         </label>
-        <input
-          type="text"
-          name="username"
-          className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
-        />
-      </div>
-      <div className="flex flex-col gap-y-1 mb-4">
-        <label htmlFor="email" className="text-sm text-[#666666]">
-          Email
-        </label>
-        <input
-          type="text"
-          name="email"
-          className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
-        />
-      </div>
-      <div className="flex flex-col gap-y-1 mb-4">
-        <label htmlFor="password" className="text-sm text-[#666666]">
-          Password
-        </label>
-        <input
-          type="text"
-          name="password"
+        <textarea
+          name="body"
+          rows={10}
           className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
         />
       </div>
       <div>
-        <SubmitButton text="Sign up!" />
+        <SubmitButton text="Add!" />
       </div>
     </form>
   );

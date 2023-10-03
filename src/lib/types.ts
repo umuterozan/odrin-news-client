@@ -22,3 +22,10 @@ export interface ISession {
   agent: string;
   createdAt: string;
 }
+
+export interface IComment {
+  id: number;
+  text: string;
+  createdAt: string;
+  user: string;
+}

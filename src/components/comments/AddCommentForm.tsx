@@ -1,33 +1,33 @@
 "use client";
 
-import { findUser } from "@/app/auth/actions";
-import { useState } from "react";
+import { createComment } from "@/app/posts/actions";
+import { useState, useRef } from "react";
 import SubmitButton from "@/app/auth/SubmitButton";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
-export default function SigninForm() {
+export default function AddCommentForm({ postId }: { postId: number }) {
   const [messages, setMessages] = useState<string[]>([]);
   const router = useRouter();
+  const formRef: any = useRef()
 
   async function sendData(formData: FormData) {
-    const res = await findUser(formData, navigator.userAgent);
+    const res = await createComment(formData, postId);
     if (res.message) {
       const messages = Array.isArray(res.message) ? res.message : [res.message];
       setMessages(messages);
       toast.error("Errors exist.");
     }
     if (res.ok) {
-      router.push("/");
+      router.refresh();
+      setMessages([])
+      formRef.current.reset()
       toast.success("Successful!");
     }
   }
 
   return (
-    <form action={sendData} className="w-1/4">
-      <div className="text-center text-2xl font-medium mb-4 border-b-2 pb-2">
-        Sign in
-      </div>
+    <form action={sendData} ref={formRef}>
       <div
         className={`${
           messages.length === 0 ? "hidden" : ""
@@ -53,28 +53,21 @@ export default function SigninForm() {
           </div>
         ))}
       </div>
-      <div className="flex flex-col gap-y-1 mb-4">
+
+      <div className="mb-4">
         <label htmlFor="username" className="text-sm text-[#666666]">
-          Username
+          Add Comment
         </label>
-        <input
-          type="text"
-          name="username"
-          className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
-        />
-      </div>
-      <div className="flex flex-col gap-y-1 mb-4">
-        <label htmlFor="password" className="text-sm text-[#666666]">
-          Password
-        </label>
-        <input
-          type="text"
-          name="password"
-          className="border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
-        />
-      </div>
-      <div>
-        <SubmitButton text="Sign in!" />
+        <div className="mt-1 flex items-center">
+          <input
+            type="text"
+            name="comment"
+            className="w-full border-2 rounded p-2 outline-none hover:border-[#666] focus:border-[#666] transition-all"
+          />
+          <div>
+            <SubmitButton text="Add!" />
+          </div>
+        </div>
       </div>
     </form>
   );

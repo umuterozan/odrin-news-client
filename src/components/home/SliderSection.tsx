@@ -2,6 +2,7 @@ import Image from "next/image";
 import { IPost } from "@/lib/types";
 import { getPosts } from "@/lib/actions";
 import { ArrowLeftIcon, ArrowRightIcon, AuthorIcon, CalendarIcon, CommentIcon } from "../icons";
+import Link from "next/link";
 
 export default async function SliderSection() {
   const posts: IPost[] = await getPosts(4, "count", "DESC")
@@ -49,14 +50,16 @@ export default async function SliderSection() {
           <div className="bg-white py-[22px] px-5 rounded-[10px] grid gap-y-5">
             {posts.map((post: IPost) => (
               <div key={post.id} className="flex items-center gap-x-[21px]">
-                <div className="flex-shrink-0 w-[120px] h-[79px] relative">
-                  <Image
-                    fill
-                    alt="Post Image"
-                    src={post.thumbnail}
-                    className="object-cover rounded-lg"
-                  />
-                </div>
+                <Link href={`/posts/${post.slug}`}>
+                  <div className="flex-shrink-0 w-[120px] h-[79px] relative">
+                    <Image
+                      fill
+                      alt="Post Image"
+                      src={post.thumbnail}
+                      className="object-cover rounded-lg"
+                    />
+                  </div>
+                </Link>
                 <div className="grid gap-y-[10px]">
                   <div className="text-xs flex items-center gap-x-1">
                     <div className="font-medium text-white bg-[#4F95FF] py-[3px] px-[15px]">
@@ -69,7 +72,7 @@ export default async function SliderSection() {
                       <div className="text-[#4F95FF]">{post.commentsCount}</div>
                     </div>
                   </div>
-                  <div className="font-semibold">{post.title}</div>
+                  <Link href={`/posts/${post.slug}`}><div className="font-semibold">{post.title}</div></Link>
                 </div>
               </div>
             ))}
