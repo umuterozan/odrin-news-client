@@ -1,5 +1,7 @@
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
+![image](https://github.com/umuterozan/odrin-news-client/assets/60011650/97c2fe79-f18c-42e5-9c38-a2e96595f751)
+
 ## Getting Started
 
 First, run the development server:
